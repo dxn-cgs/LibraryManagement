@@ -1,12 +1,13 @@
 package libraryManager;
 
-import java.time.LocalDate;
+import java.time.*;
 
 /**
  * Class:
- * Author:
+ * Author: SAM (not linke)
  * LastEdited:
- * Description: [What this class does in 1–2 sentences.]
+ * Description: Represents a book in the library system.
+ *              Stores book details and handles check-in/check-out functionality with due date tracking.
  */
 public class Book {
     private int id;
@@ -42,18 +43,62 @@ public class Book {
     }
 
     public Member getBorrowedBy() {
-        return borrowedBy;
+        return this.borrowedBy;
     }
 
     public LocalDate getReturnBy() {
         return returnBy;
     }
 
-    public void checkOut(Member member, LocalDate returnBy) {
-        // to complete
+    public String getStatus() {
+        if (borrowed) {
+            return "BORROWED";
+        } else {
+            return "AVAILABLE";
+        }
     }
 
+    /**
+     * This method checks out a book and assigns a member that borrowed it
+     * Prevents user from borrowing if member has overdue books
+     * @author Sam and Linke
+     * @param member is the member who is borrowing the book
+     */
+    public void checkOut(Member member) {
+        // to complete
+        if (!member.getOverdueBooks().isEmpty()) {
+            throw new IllegalStateException("Member has overdue books");
+        }
+
+        this.borrowed = true;
+        this.borrowedBy = member;
+        this.returnBy = LocalDate.now().plusDays(14);
+
+
+    }
+
+    /**
+     * This method checks in a book and sets its status as borrowed to false,
+     * as well as setting who it is borrowed to null
+     * @author Sam and Linke
+     */
     public void checkIn() {
         // to complete
+        this.borrowed = false;
+        this.borrowedBy = null;
     }
+
+    /**
+     * Set the due date of the book some time in the past
+     * For testing purposes only
+     * @author Mr Nam
+     */
+    static void setAsOverdue(Book book) {
+        if (!book.isBorrowed()) {
+            throw new IllegalStateException("The book is not borrowed yet");
+        }
+
+        book.returnBy = LocalDate.now().minusDays(7);
+    }
+
 }

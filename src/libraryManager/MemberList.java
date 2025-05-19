@@ -10,7 +10,7 @@ import java.util.*;
  */
 public class MemberList {
     private List<Member> members;
-
+    
     public MemberList() {
         this.members = new ArrayList<>();
     }
