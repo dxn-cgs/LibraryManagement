@@ -32,11 +32,12 @@ public class LibrarySystem {
     /**
      *
      * @param book The book we are trying to find
+     * @author Jun
      * @return Member: the member which owns the book
      */
     private Member getBorrowerOf(Book book) {
-        // to complete
-        return new Member(0, "Sample Member");
+        int id = inputInt("Enter the book ID");
+        return new Member("Sample Member");
     }
 
     /**
@@ -45,7 +46,6 @@ public class LibrarySystem {
      * @param books List of books we have in the library
      */
     private void printBooks(List<Book> books) {
-        // to complete
         System.out.println("\nList of all books:");
         System.out.println("---------------------------------------");
         System.out.println(ANSI_YELLOW + "ID   STATUS     TITLE (AUTHOR)" + ANSI_RESET);
@@ -54,15 +54,30 @@ public class LibrarySystem {
         }
     }
 
+    private void handleBookMenu() {
+        printBooks(this.bookList.getBooks());
+        System.out.println("- [B]orrow a book");
+        System.out.println("- [R]eturn a book");
+        System.out.println(" [E]xit the menu");
+
+        String choice = inputString("Select an option: ").toLowerCase();
+
+
+
+    }
+
     /**
      * Prints out all members of our library.
+     * @author Jun
      * @param members
      */
     private void printMembers(List<Member> members) {
-        // to complete
         System.out.println("\nList of all members:");
         System.out.println("---------------------------------------");
-
+        System.out.printf("%-5s %-20s\n", "ID", "NAME");
+        for (Member member : members) {
+            System.out.printf("%-5d %-20s\n", member.getId(), member.getName());
+        }
     }
 
     /**
@@ -85,6 +100,9 @@ public class LibrarySystem {
                     printMembers(this.memberList.getMembers());
                     break;
                 case "e":
+                    System.out.println(" exit function");
+                    break;
+                default:
                     break;
             }
         }

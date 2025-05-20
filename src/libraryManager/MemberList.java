@@ -9,9 +9,11 @@ import java.util.*;
  * Description: [What this class does in 1–2 sentences.]
  */
 public class MemberList {
+    private int nextId;
     private List<Member> members;
     
     public MemberList() {
+        this.nextId = 0;
         this.members = new ArrayList<>();
     }
 
@@ -20,11 +22,16 @@ public class MemberList {
     }
 
     public Member getMemberById(int id) {
-        // to complete
-        return new Member(0, "Sample Member");
+        for (Member member: this.members) {
+            if (id == member.getId()) {
+                return member;
+            }
+        }
+        throw new NoSuchElementException("No member exists with the given id");
     }
 
-    public void addMember(Member member) {
-        // to complete
+    public void addMember(String name) {
+        members.add(new Member(this.nextId, name));
+        this.nextId += 1;
     }
 }

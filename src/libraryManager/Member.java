@@ -16,6 +16,7 @@ public class Member {
     private List<Book> borrowedBooks;
 
 
+
     public Member(int id, String name) {
         this.id = id;
         this.name = name;
@@ -37,6 +38,7 @@ public class Member {
 
     public void checkOutBook(Book book) {
         this.borrowedBooks.add(book);
+
     }
 
     /**
@@ -66,3 +68,9 @@ public class Member {
         return overdueBooks;
     }
 }
+
+
+
+
+
+
