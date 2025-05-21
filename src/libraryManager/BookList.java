@@ -10,9 +10,11 @@ import java.util.*;
  *              Provides methods to add, retrieve, and filter books by various criteria.
  */
 public class BookList {
+    private int nextId;
     private List<Book> books;
 
     public BookList() {
+        this.nextId = 0;
         this.books = new ArrayList<>();
     }
 
@@ -37,18 +39,16 @@ public class BookList {
     }
 
     /**
-     * This method checks if the book trying to be added is already in the list, and if it isn't, adds the book
-     * @author Leo
-     * @param book a book object in the booklist
+     * Creates a book instance and adds it to the list
+     * @author Leo and Mr Nam
+     * @param title the title of the book
+     * @param author the author of the book
      */
-    public void addBook(Book book) {
-        for (Book b : books) {
-            if (b.getId() == book.getId()) {
-                throw new IllegalArgumentException("A book with this ID already exists");
-            }
-        }
-        books.add(book);
+    public void addBook(String title, String author) {
+        books.add(new Book(nextId, title, author));
+        this.nextId += 1;
     }
+
 
     /**
      * Filters books from the booklist on the inputted boolean

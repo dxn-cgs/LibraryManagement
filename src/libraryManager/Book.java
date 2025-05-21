@@ -10,35 +10,31 @@ import java.time.*;
  *              Stores book details and handles check-in/check-out functionality with due date tracking.
  */
 public class Book {
-    private static int id;
-    private static String title;
-    private static String author;
+    private int id;
+    private String title;
+    private String author;
     private boolean borrowed;
     private Member borrowedBy;
     private LocalDate returnBy;
 
-    private static int nextId = 0;
-
-    public Book(String title, String author) {
-        this.id = nextId;
+    public Book(int id, String title, String author) {
+        this.id = id;
         this.title = title;
         this.author = author;
         this.borrowed = false;
         this.borrowedBy = null;
         this.returnBy = null;
-
-        this.nextId += 1;
     }
 
-    public static int getId() {
+    public int getId() {
         return id;
     }
 
-    public static String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public static String getAuthor() {
+    public String getAuthor() {
         return author;
     }
 
@@ -78,6 +74,8 @@ public class Book {
         this.borrowedBy = member;
         this.returnBy = LocalDate.now().plusDays(14);
     }
+
+
 
     /**
      * This method checks in a book and sets its status as borrowed to false,

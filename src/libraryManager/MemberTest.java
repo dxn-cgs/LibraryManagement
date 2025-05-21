@@ -7,8 +7,8 @@ import static org.junit.jupiter.api.Assertions.*;
 class MemberTest {
     @Test
     public void shouldCheckInAndCheckOutBook() {
-        Member testMemb = new Member("aaa");
-        Book book = new Book("Test Book", "Test Author");
+        Member testMemb = new Member(0, "Test Member");
+        Book book = new Book(0, "Test Book", "Test Author");
         testMemb.checkOutBook(book);
         assertEquals(book, testMemb.getBorrowedBooks().get(0));
         testMemb.checkInBook(book);
@@ -17,9 +17,9 @@ class MemberTest {
 
     @Test
     public void shouldReturnOverDueBooks() {
-        Member myMember = new Member("D");
+        Member myMember = new Member(0, "D");
 
-        Book book = new Book("Test Book", "Test Author");
+        Book book = new Book(0, "Test Book", "Test Author");
         book.checkOut(myMember);
 
         // have to call this internal method to set the due date past today
@@ -33,7 +33,7 @@ class MemberTest {
     public void shouldReturnBorrowedBooks(){
         Member myMember = new Member(4,"Marry Sherry");
 
-        Book book = new Book("TNLU", "mustard");
+        Book book = new Book(0, "frankenstein", "mary shelley");
         
         book.checkOut(myMember);
 

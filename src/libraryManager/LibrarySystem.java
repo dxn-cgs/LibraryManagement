@@ -37,7 +37,7 @@ public class LibrarySystem {
      */
     private Member getBorrowerOf(Book book) {
         int id = inputInt("Enter the book ID");
-        return new Member("Sample Member");
+        return new Member(0, "Sample Member");
     }
 
     /**
@@ -54,6 +54,40 @@ public class LibrarySystem {
         }
     }
 
+    private void borrowBook() {
+        int bookID = inputInt("Enter the book ID:");
+        Book book = bookList.getBookById(bookID);
+        int memberID = inputInt("Enter the member ID:");
+        Member member = memberList.getMemberById(memberID);
+
+        if(!book.isBorrowed()) {
+            book.checkOut(member);
+            member.checkOutBook(book);
+            System.out.print(ANSI_RED + " " + book.getTitle() + ANSI_RESET);
+            System.out.print(" is now loaned to " + ANSI_PURPLE + member.getName() + ANSI_RESET + "\n");
+        } else {
+            System.out.println("Book is currently on loan");
+        }
+    }
+
+    private void returnBook() {
+        int bookID = inputInt("Enter the book ID:");
+        Book book = bookList.getBookById(bookID);
+        int memberID = inputInt("Enter the member ID:");
+        Member member = memberList.getMemberById(memberID);
+
+        if(book.isBorrowed()) {
+            book.checkIn(book);
+            member.checkInBook(book);
+            System.out.print(ANSI_GREEN + book.getTitle() + ANSI_RESET);
+            System.out.print(" has now been returned from " + ANSI_BLUE + member.getName() + ANSI_RESET + "\n");
+        }
+    }
+
+    /**
+     * Handles our book menu for the user
+     * @author Jun
+     */
     private void handleBookMenu() {
         printBooks(this.bookList.getBooks());
         System.out.println("- [B]orrow a book");
@@ -61,9 +95,16 @@ public class LibrarySystem {
         System.out.println(" [E]xit the menu");
 
         String choice = inputString("Select an option: ").toLowerCase();
-
-
-
+        switch (choice) {
+            case "b":
+                borrowBook();
+                break;
+            case "r":
+                returnBook();
+                break;
+            default:
+                break;
+        }
     }
 
     /**
@@ -80,6 +121,10 @@ public class LibrarySystem {
         }
     }
 
+    private void handleMemberMenu() {
+        printMembers(this.memberList.getMembers());
+    }
+
     /**
      *
      * Main loop which the program will run on
@@ -89,23 +134,27 @@ public class LibrarySystem {
         // to complete
         while (true) {
             System.out.println("Welcome to the CGS Library Manager!");
-            System.out.print("- Manage [b]ooks\n- [R]egister a new member\n- Save and [e]xit");
+            System.out.print("- Manage [b]ooks\n- Manage [m]embers\n- Save and [e]xit");
 
             String choice = inputString("Select an Option: ").toLowerCase();
             switch (choice) {
                 case "b":
-                    printBooks(this.bookList.getBooks());
+                    handleBookMenu();
                     break;
-                case "r":
+                case "m":
                     printMembers(this.memberList.getMembers());
                     break;
                 case "e":
-                    System.out.println(" exit function");
+                    System.out.println("to do");
                     break;
                 default:
                     break;
             }
         }
+
+    }
+    
+    private void save(String filename) {
 
     }
 }
