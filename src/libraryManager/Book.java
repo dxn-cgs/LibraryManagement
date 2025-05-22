@@ -82,7 +82,7 @@ public class Book {
      * as well as setting who it is borrowed to null
      * @author Sam and Linke
      */
-    public void checkIn(Book book) {
+    public void checkIn() {
         this.borrowed = false;
         this.borrowedBy = null;
     }

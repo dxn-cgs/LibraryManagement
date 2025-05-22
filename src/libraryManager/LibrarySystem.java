@@ -12,6 +12,7 @@ import java.util.*;
 public class LibrarySystem {
     private BookList bookList;
     private MemberList memberList;
+    private final String saveLocation;
 
     //ignore these, vars are used for styling
     public static final String ANSI_RESET = "\u001B[0m";
@@ -27,6 +28,7 @@ public class LibrarySystem {
     public LibrarySystem() {
         this.bookList = new BookList();
         this.memberList = new MemberList();
+        this.saveLocation = "save.json";
     }
 
     /**
@@ -77,8 +79,9 @@ public class LibrarySystem {
         Member member = memberList.getMemberById(memberID);
 
         if(book.isBorrowed()) {
-            book.checkIn(book);
-            member.checkInBook(book);
+            book.checkIn(); // this is enough!
+//            book.checkIn(book);
+//            member.checkInBook(book);
             System.out.print(ANSI_GREEN + book.getTitle() + ANSI_RESET);
             System.out.print(" has now been returned from " + ANSI_BLUE + member.getName() + ANSI_RESET + "\n");
         }
@@ -153,8 +156,24 @@ public class LibrarySystem {
         }
 
     }
-    
-    private void save(String filename) {
 
+    /**
+     * saves current system as a JSON file
+     * @author Mr Nam
+     */
+    public void save() {
+        SaveLoad sl = new SaveLoad(this.saveLocation);
+        sl.save(this);
+    }
+
+    /**
+     * loads saved states from the save file
+     * @author Mr Nam
+     */
+    public void load() {
+        SaveLoad sl = new SaveLoad(this.saveLocation);
+        LibrarySystem loaded = sl.load(this.getClass());
+        this.memberList = loaded.memberList;
+        this.bookList = loaded.bookList;
     }
 }
