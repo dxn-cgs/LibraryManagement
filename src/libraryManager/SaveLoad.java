@@ -1,12 +1,17 @@
 package libraryManager;
 
 import com.google.gson.*;
+import com.google.gson.reflect.TypeToken;
 
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.nio.file.*;
+import java.util.List;
 
+/**
+ * Converter for LocalDate objects
+ */
 class LocalDateSerializer implements JsonSerializer<LocalDate> {
     public JsonElement serialize(LocalDate src, Type typeOfSrc, JsonSerializationContext context) {
         return new JsonPrimitive(src.toString());
@@ -21,6 +26,21 @@ class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
 }
 
 /**
+ * Converters for Member and Book objects
+ */
+class BookCreator implements InstanceCreator<Book> {
+    public Book createInstance(Type type) {
+        return new Book(0, "", "");
+    }
+}
+class MemberCreator implements InstanceCreator<Member> {
+    public Member createInstance(Type type) {
+        return new Member(0, "");
+    }
+}
+
+
+/**
  * Class:
  * Author: Mr Nam
  * LastEdited:
@@ -29,7 +49,7 @@ class LocalDateDeserializer implements JsonDeserializer<LocalDate> {
 public class SaveLoad {
     public Gson gson;
 
-    private Path path;
+    private final Path path;
 
     /**
      * Constructor
@@ -41,6 +61,8 @@ public class SaveLoad {
             .serializeNulls() // include null data in save
             .registerTypeAdapter(LocalDate.class, new LocalDateSerializer()) // for saving dates
             .registerTypeAdapter(LocalDate.class, new LocalDateDeserializer()) // for loading dates
+            .registerTypeAdapter(Book.class, new BookCreator())
+            .registerTypeAdapter(Member.class, new MemberCreator())
             .create();
         this.path = Paths.get(filename);
     }
@@ -61,10 +83,27 @@ public class SaveLoad {
 
     /**
      * loads the file and return the parsed result
-     * @param type type of the data saved (e.g. BookList.class)
+     *
+     * @param type type of the data saved (e.g. Integer, Member.getClass())
+     *             for collections/lists, you have to put a typeToken (see below)
      * @return the parsed data
      */
     public <T> T load(Type type) {
+        try {
+            return gson.fromJson(Files.readString(path), type);
+        } catch (IOException e) {
+            System.out.println("Could not write to file: " + e.getMessage());
+        }
+        return null;
+    }
+
+    /**
+     * loads the file and return the parsed result that is a collection (list, map, ...)
+     * reference: https://google.github.io/gson/UserGuide.html#collections-examples
+     * @param type a TypeToken object (use the link above for guide)
+     * @return the parsed data
+     */
+    public <T> T load(TypeToken<T> type) {
         try {
             return gson.fromJson(Files.readString(path), type);
         } catch (IOException e) {

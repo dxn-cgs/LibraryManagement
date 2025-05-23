@@ -2,6 +2,9 @@ package libraryManager;
 
 import java.util.*;
 
+import static jets.Jets.inputInt;
+import static jets.Jets.inputString;
+
 /**
  * Class:
  * Author:

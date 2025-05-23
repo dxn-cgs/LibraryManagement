@@ -13,7 +13,8 @@ import java.time.LocalDate;
 public class Member {
     private int id;
     private String name;
-    private List<Book> borrowedBooks;
+    // the transient keyword asks the serializer to ignore it when saving/loading
+    private transient List<Book> borrowedBooks;
 
 
 
